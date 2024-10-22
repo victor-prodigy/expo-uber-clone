@@ -1,11 +1,31 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Alert } from "react-native";
+import { useOAuth } from "@clerk/clerk-expo";
+import { useCallback } from "react";
 
 import { icons } from "@/constants";
 
+import { googleOAuth } from "@/lib/auth";
+
 import CustomButton from "./custom-button";
+import { router } from "expo-router";
 
 const OAuth = () => {
-  const handleGoogleSignIn = async () => {};
+  // Clerk OAuth, login com GoogleProvider
+  const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
+
+  const handleGoogleSignIn = useCallback(async () => {
+    try {
+      // https://youtu.be/kmy_YNhl0mw?t=18717
+      const result = await googleOAuth(startOAuthFlow);
+
+      // https://youtu.be/kmy_YNhl0mw?t=18984
+      if (result.code === "session_exists" || result.code === "success") {
+        router.push("/(root)/(tabs)/home");
+      }
+    } catch (err) {
+      console.error("OAuth error", err);
+    }
+  }, []);
 
   return (
     <View>

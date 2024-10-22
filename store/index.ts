@@ -52,6 +52,7 @@ export const useLocationStore = create<LocationStore>((set) => ({
 }));
 
 // https://youtu.be/kmy_YNhl0mw?t=11942
+// NOTE: para acompanhar os motoristas ativos, e saber cada motorista que contem um usuario selecionado
 export const useDriverStore = create<DriverStore>((set) => ({
   drivers: [] as MarkerData[],
   selectedDriver: null,
